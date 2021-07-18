@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
- * Just a POJO representing employee entity.
+ * Just a POJO representing employee's entity.
  */
 
 @Builder
