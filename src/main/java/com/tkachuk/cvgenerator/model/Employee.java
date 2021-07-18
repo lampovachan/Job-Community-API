@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+/**
+ * Just a POJO representing employee entity.
+ */
 
 @Builder
 @AllArgsConstructor
@@ -16,5 +18,5 @@ public class Employee {
     private String lastName;
     private Integer age;
     private String goal;
-    private List<Experience> experiences;
+    private String experiences;
 }
