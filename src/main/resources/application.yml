@@ -5,6 +5,7 @@ localstack:
     enabled: true
     s3:
         enabled: true
+        bucketName: "test"
     services: S3
     sqs:
         enabled: false

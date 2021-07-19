@@ -5,8 +5,8 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
 import com.tkachuk.cvgenerator.model.Employee;
 import com.tkachuk.cvgenerator.service.CVService;
-import com.tkachuk.cvgenerator.service.PdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -20,7 +20,18 @@ import java.util.UUID;
 
 @Service
 public class CVServiceImpl implements CVService {
-    String BUCKET_NAME = "test";
+    @Value("${localstack.s3.bucketName}")
+    private String bucketName;
+    private final String EXTENSION = ".pdf";
+
+    private AmazonS3 configure;
+    private PdfGeneratorImpl pdfGenerator;
+
+    @Autowired
+    public CVServiceImpl(PdfGeneratorImpl pdfGenerator, AmazonS3 configure) {
+        this.pdfGenerator = pdfGenerator;
+        this.configure = configure;
+    }
 
     /**
      * Utility method which parses Thymeleaf and generates PDF for working with it.
@@ -30,39 +41,36 @@ public class CVServiceImpl implements CVService {
      * @throws DocumentException
      */
     private File parseAndGenerate(Employee employee) throws IOException, DocumentException {
-        PdfGenerator thymeleaf2Pdf = new PdfGeneratorImpl();
-        String html = thymeleaf2Pdf.parseThymeleafTemplate(employee);
-        return thymeleaf2Pdf.generatePdfFromHtml(html);
+        String html = pdfGenerator.parseThymeleafTemplate(employee);
+        return pdfGenerator.generatePdfFromHtml(html);
     }
 
     @Override
-    public String createCV(Employee employee, AmazonS3 s3) throws IOException, DocumentException {
-        CVServiceImpl employeeService = new CVServiceImpl();
+    public String createCV(Employee employee) throws IOException, DocumentException {
         String filename = UUID.randomUUID().toString();
-        File file = employeeService.parseAndGenerate(employee);
+        File file = parseAndGenerate(employee);
 
-        if (!s3.doesBucketExist(BUCKET_NAME)) {
-            s3.createBucket(BUCKET_NAME);
+        if (!configure.doesBucketExist(bucketName)) {
+            configure.createBucket(bucketName);
         }
-        s3.putObject(BUCKET_NAME, filename + ".pdf", file);
+        configure.putObject(bucketName, filename + EXTENSION, file);
         return filename;
     }
 
     @Override
-    public S3Object getCV(AmazonS3 s3, String fileName) {
-        return s3.getObject(BUCKET_NAME, fileName);
+    public S3Object getCV(String fileName) {
+        return configure.getObject(bucketName, fileName + EXTENSION);
     }
 
     @Override
-    public void updateCV(Employee employee, AmazonS3 s3, String fileName) throws IOException, DocumentException {
-        CVServiceImpl employeeService = new CVServiceImpl();
-        File file = employeeService.parseAndGenerate(employee);
-        s3.putObject(BUCKET_NAME, fileName, file);
+    public void updateCV(Employee employee, String fileName) throws IOException, DocumentException {
+        File file = parseAndGenerate(employee);
+        configure.putObject(bucketName, fileName + EXTENSION, file);
     }
 
     @Override
-    public void deleteCV (AmazonS3 s3, String fileName) {
-        s3.deleteObject(BUCKET_NAME, fileName); //not working method due to https://github.com/localstack/localstack/issues/3635
+    public void deleteCV (String fileName) {
+        configure.deleteObject(bucketName, fileName + EXTENSION); //not working method due to https://github.com/localstack/localstack/issues/3635
     }
 
 }

@@ -2,11 +2,9 @@ package com.tkachuk.cvgenerator.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.lowagie.text.DocumentException;
 import com.tkachuk.cvgenerator.config.S3Config;
 import com.tkachuk.cvgenerator.model.Employee;
-import com.tkachuk.cvgenerator.service.CVService;
 import com.tkachuk.cvgenerator.service.impl.CVServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -24,12 +22,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/cv")
 public class CVController {
-    S3Config s3Config;
-    CVServiceImpl cvService;
+    private CVServiceImpl cvService;
 
     @Autowired
-    public CVController(S3Config s3Config, CVServiceImpl cvService) {
-        this.s3Config = s3Config;
+    public CVController(CVServiceImpl cvService) {
         this.cvService = cvService;
     }
 
@@ -42,8 +38,7 @@ public class CVController {
      */
     @PostMapping("/create")
     public String createCV(@RequestBody Employee employee) throws IOException, DocumentException {
-        String fileName = cvService.createCV(employee, s3Config.configure());
-        return fileName;
+        return cvService.createCV(employee);
     }
 
     /**
@@ -53,15 +48,12 @@ public class CVController {
      */
     @GetMapping("/download/{id}")
     public ResponseEntity<InputStreamResource> getDocument(@PathVariable String id) {
-        String filename = id + ".pdf";
-        S3Object object = cvService.getCV(s3Config.configure(), filename);
-        S3ObjectInputStream s3is = object.getObjectContent();
-
+        S3Object object = cvService.getCV(id);
         return ResponseEntity.ok()
                 .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
                 .cacheControl(CacheControl.noCache())
-                .header("Content-Disposition", "attachment; filename=" + filename)
-                .body(new InputStreamResource(s3is));
+                .header("Content-Disposition", "attachment; filename=" + id + ".pdf")
+                .body(new InputStreamResource(object.getObjectContent()));
     }
 
     /**
@@ -74,13 +66,12 @@ public class CVController {
      */
     @PutMapping("/update/{id}")
     public ResponseEntity<InputStreamResource> updateDocument (@PathVariable String id, @RequestBody Employee employee) throws IOException, DocumentException {
-        String fileName = id + ".pdf";
-        cvService.updateCV(employee, s3Config.configure(), fileName);
-        S3Object object = cvService.getCV(s3Config.configure(), fileName);
+        cvService.updateCV(employee, id);
+        S3Object object = cvService.getCV(id);
         return ResponseEntity.ok()
                 .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
                 .cacheControl(CacheControl.noCache())
-                .header("Content-Disposition", "attachment; filename=" + fileName)
+                .header("Content-Disposition", "attachment; filename=" + id + ".pdf")
                 .body(new InputStreamResource(object.getObjectContent()));
     }
 
@@ -91,8 +82,7 @@ public class CVController {
      */
     @DeleteMapping("/{id}")
     public String deleteDocument(@PathVariable String id) {
-        String fileName = id + ".pdf";
-        cvService.deleteCV(s3Config.configure(), fileName);
+        cvService.deleteCV(id);
         return "Deleted Successfully";
     }
 }
