@@ -8,6 +8,7 @@ import com.tkachuk.cvgenerator.config.S3Config;
 import com.tkachuk.cvgenerator.model.Employee;
 import com.tkachuk.cvgenerator.service.CVService;
 import com.tkachuk.cvgenerator.service.impl.CVServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,14 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/cv")
 public class CVController {
+    S3Config s3Config;
+    CVServiceImpl cvService;
+
+    @Autowired
+    public CVController(S3Config s3Config, CVServiceImpl cvService) {
+        this.s3Config = s3Config;
+        this.cvService = cvService;
+    }
 
     /**
      * This method provides endpoint for creating new employee's CV.
@@ -33,10 +42,7 @@ public class CVController {
      */
     @PostMapping("/create")
     public String createCV(@RequestBody Employee employee) throws IOException, DocumentException {
-        S3Config config = new S3Config();
-        AmazonS3 s3 = config.configure();
-        CVService service = new CVServiceImpl();
-        String fileName = service.createCV(employee, s3);
+        String fileName = cvService.createCV(employee, s3Config.configure());
         return fileName;
     }
 
@@ -47,11 +53,8 @@ public class CVController {
      */
     @GetMapping("/download/{id}")
     public ResponseEntity<InputStreamResource> getDocument(@PathVariable String id) {
-        S3Config config = new S3Config();
-        AmazonS3 s3 = config.configure();
-        CVService service = new CVServiceImpl();
         String filename = id + ".pdf";
-        S3Object object = service.getCV(s3, filename);
+        S3Object object = cvService.getCV(s3Config.configure(), filename);
         S3ObjectInputStream s3is = object.getObjectContent();
 
         return ResponseEntity.ok()
@@ -71,12 +74,9 @@ public class CVController {
      */
     @PutMapping("/update/{id}")
     public ResponseEntity<InputStreamResource> updateDocument (@PathVariable String id, @RequestBody Employee employee) throws IOException, DocumentException {
-        S3Config config = new S3Config();
-        AmazonS3 s3 = config.configure();
-        CVService service = new CVServiceImpl();
         String fileName = id + ".pdf";
-        service.updateCV(employee, s3, fileName);
-        S3Object object = service.getCV(s3, fileName);
+        cvService.updateCV(employee, s3Config.configure(), fileName);
+        S3Object object = cvService.getCV(s3Config.configure(), fileName);
         return ResponseEntity.ok()
                 .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
                 .cacheControl(CacheControl.noCache())
@@ -91,11 +91,8 @@ public class CVController {
      */
     @DeleteMapping("/{id}")
     public String deleteDocument(@PathVariable String id) {
-        S3Config config = new S3Config();
-        AmazonS3 s3 = config.configure();
-        CVService service = new CVServiceImpl();
         String fileName = id + ".pdf";
-        service.deleteCV(s3, fileName);
+        cvService.deleteCV(s3Config.configure(), fileName);
         return "Deleted Successfully";
     }
 }
