@@ -2,6 +2,7 @@ package com.tkachuk.cvgenerator.service;
 
 import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
+import com.tkachuk.common.User;
 import com.tkachuk.cvgenerator.model.Employee;
 
 import java.io.IOException;
@@ -13,12 +14,11 @@ import java.io.IOException;
 public interface CVService {
     /**
      * Ths method creates employee's CV.
-     * @param employee
      * @return filename of created CV.
      * @throws IOException
      * @throws DocumentException
      */
-    String createCV (Employee employee) throws IOException, DocumentException;
+    String createCV (User user) throws IOException, DocumentException;
 
     /**
      * This method gets employee's CV.
@@ -28,12 +28,11 @@ public interface CVService {
 
     /**
      * This method updates employee's CV.
-     * @param employee
      * @return filename of updated CV.
      * @throws IOException
      * @throws DocumentException
      */
-    void updateCV (Employee employee, String fileName) throws IOException, DocumentException;
+    void updateCV (User user, String fileName) throws IOException, DocumentException;
 
     /**
      * This method deletes employee's CV.

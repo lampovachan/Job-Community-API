@@ -3,6 +3,7 @@ package com.tkachuk.cvgenerator.controller;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
+import com.tkachuk.common.User;
 import com.tkachuk.cvgenerator.config.S3Config;
 import com.tkachuk.cvgenerator.model.Employee;
 import com.tkachuk.cvgenerator.service.impl.CVServiceImpl;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -31,14 +33,14 @@ public class CVController {
 
     /**
      * This method provides endpoint for creating new employee's CV.
-     * @param employee
      * @return fileName
      * @throws IOException
      * @throws DocumentException
      */
+    @KafkaListener(topics = "NewTopic", groupId = "group_id")
     @PostMapping("/create")
-    public String createCV(@RequestBody Employee employee) throws IOException, DocumentException {
-        return cvService.createCV(employee);
+    public String createCV(@RequestBody User user) throws IOException, DocumentException {
+        return cvService.createCV(user);
     }
 
     /**
@@ -59,14 +61,13 @@ public class CVController {
     /**
      * This method provides endpoint for updating CV by its id.
      * @param id is filename that is needed
-     * @param employee is updated data
      * @return updated file
      * @throws IOException
      * @throws DocumentException
      */
     @PutMapping("/update/{id}")
-    public ResponseEntity<InputStreamResource> updateDocument (@PathVariable String id, @RequestBody Employee employee) throws IOException, DocumentException {
-        cvService.updateCV(employee, id);
+    public ResponseEntity<InputStreamResource> updateDocument (@PathVariable String id, @RequestBody User user) throws IOException, DocumentException {
+        cvService.updateCV(user, id);
         S3Object object = cvService.getCV(id);
         return ResponseEntity.ok()
                 .contentType(org.springframework.http.MediaType.APPLICATION_PDF)

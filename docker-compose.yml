@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    localstack:
+        image: localstack/localstack
+        ports:
+            - "4566-4599:4566-4599"
+            - "${PORT_WEB_UI-9000}:${PORT_WEB_UI-9000}"
+        environment:
+            - SERVICES=s3
+            - PORT_WEB_UI=9000
+            - AWS_ACCESS_KEY_ID=AXXXXXXXXXXXXE
+            - AWS_SECRET_ACCESS_KEY=wXXXXXXXXXXXXY
+            - AWS_DEFAULT_REGION=us-west-2
+    db:
+        image: postgres
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=root
+        ports:
+            - "5432:5432"
+    zookeeper:
+        image: wurstmeister/zookeeper
+        ports:
+            - "2181:2181"
+    kafka:
+        image: wurstmeister/kafka
+        ports:
+            - "9092:9092"
+        environment:
+            KAFKA_ADVERTISED_HOST_NAME: kafka
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        depends_on:
+            - zookeeper

@@ -1,7 +1,6 @@
 package com.tkachuk.jobnetwork.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -31,9 +30,28 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private List<Role> roles;
+    @Column(name = "cv_url")
+    private String cvUrl;
+
+    @Column(name = "photo_url")
+    private String photoUrl;
+
+    public User(String username, String email, String encode) {
+        this.username = username;
+        this.email = email;
+        this.password = encode;
+    }
+
+    public User() {
+
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Experience> experiences;
+
+    public User(String firstName, String lastName, List<Experience> experienceList) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.experiences = experienceList;
+    }
 }

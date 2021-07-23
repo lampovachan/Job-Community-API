@@ -3,6 +3,7 @@ package com.tkachuk.cvgenerator.service.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
+import com.tkachuk.common.User;
 import com.tkachuk.cvgenerator.model.Employee;
 import com.tkachuk.cvgenerator.service.CVService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +36,19 @@ public class CVServiceImpl implements CVService {
 
     /**
      * Utility method which parses Thymeleaf and generates PDF for working with it.
-     * @param employee
      * @return PDF file
      * @throws IOException
      * @throws DocumentException
      */
-    private File parseAndGenerate(Employee employee) throws IOException, DocumentException {
-        String html = pdfGenerator.parseThymeleafTemplate(employee);
+    private File parseAndGenerate(User user) throws IOException, DocumentException {
+        String html = pdfGenerator.parseThymeleafTemplate(user);
         return pdfGenerator.generatePdfFromHtml(html);
     }
 
     @Override
-    public String createCV(Employee employee) throws IOException, DocumentException {
+    public String createCV(User user) throws IOException, DocumentException {
         String filename = UUID.randomUUID().toString();
-        File file = parseAndGenerate(employee);
+        File file = parseAndGenerate(user);
 
         if (!configure.doesBucketExist(bucketName)) {
             configure.createBucket(bucketName);
@@ -63,8 +63,8 @@ public class CVServiceImpl implements CVService {
     }
 
     @Override
-    public void updateCV(Employee employee, String fileName) throws IOException, DocumentException {
-        File file = parseAndGenerate(employee);
+    public void updateCV(User user, String fileName) throws IOException, DocumentException {
+        File file = parseAndGenerate(user);
         configure.putObject(bucketName, fileName + EXTENSION, file);
     }
 
