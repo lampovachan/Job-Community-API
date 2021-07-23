@@ -5,6 +5,12 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Simple object that represents user experience.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Entity
 @Table(name = "experience")
 @Data

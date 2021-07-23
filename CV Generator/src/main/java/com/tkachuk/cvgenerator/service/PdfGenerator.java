@@ -1,8 +1,7 @@
 package com.tkachuk.cvgenerator.service;
 
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.User;
-import com.tkachuk.cvgenerator.model.Employee;
+import com.tkachuk.common.dto.UserDto;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,5 +26,5 @@ public interface PdfGenerator {
      * @return context of Thymeleaf
      */
 
-    String parseThymeleafTemplate(User user);
+    String parseThymeleafTemplate(UserDto userDto);
 }

@@ -3,7 +3,7 @@ package com.tkachuk.jobnetwork;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "common")
 public class JobnetworkApplication {
 
     public static void main(String[] args) {

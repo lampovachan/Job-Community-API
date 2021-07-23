@@ -1,8 +1,7 @@
 package com.tkachuk.cvgenerator.service.impl;
 
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.User;
-import com.tkachuk.cvgenerator.model.Employee;
+import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.cvgenerator.service.PdfGenerator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -35,7 +34,7 @@ public class PdfGeneratorImpl implements PdfGenerator {
     }
 
     @Override
-    public String parseThymeleafTemplate(User user) {
+    public String parseThymeleafTemplate(UserDto userDto) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -44,10 +43,10 @@ public class PdfGeneratorImpl implements PdfGenerator {
         templateEngine.setTemplateResolver(templateResolver);
 
         Context context = new Context();
-        context.setVariable("firstName", user.getFirstName());
-        context.setVariable("lastName", user.getLastName());
-        context.setVariable("experience", user.getExperiences());
-        context.setVariable("photo", user.getPhoto());
+        context.setVariable("firstName", userDto.getFirstName());
+        context.setVariable("lastName", userDto.getLastName());
+        context.setVariable("experience", userDto.getExperiences());
+        context.setVariable("photo", userDto.getPhoto());
         return templateEngine.process("thymeleaf_template", context);
     }
 

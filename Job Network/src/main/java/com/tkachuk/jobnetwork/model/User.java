@@ -13,7 +13,10 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
-public class User extends BaseEntity {
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "username")
     private String username;
@@ -36,6 +39,10 @@ public class User extends BaseEntity {
     @Column(name = "photo_url")
     private String photoUrl;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Experience> experiences;
+
+
     public User(String username, String email, String encode) {
         this.username = username;
         this.email = email;
@@ -44,14 +51,5 @@ public class User extends BaseEntity {
 
     public User() {
 
-    }
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Experience> experiences;
-
-    public User(String firstName, String lastName, List<Experience> experienceList) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.experiences = experienceList;
     }
 }

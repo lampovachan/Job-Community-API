@@ -1,8 +1,13 @@
-package com.tkachuk.jobnetwork.message.request;
+package com.tkachuk.jobnetwork.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * Dto class for login request.
+ *
+ * @author Svitlana Tkachuk
+ */
 public class LoginForm {
     @NotBlank
     @Size(min = 3, max = 60)

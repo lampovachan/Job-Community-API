@@ -1,4 +1,4 @@
-package com.tkachuk.jobnetwork.service.impl;
+package com.tkachuk.jobnetwork.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tkachuk.jobnetwork.model.User;
@@ -11,6 +11,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Implementation of {@link UserDetails} interface.
+ *
+ * @author Svitlana Tkachuk
+ */
 public class UserPrinciple implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
@@ -57,10 +62,6 @@ public class UserPrinciple implements UserDetails {
 
     public String getName() {
         return name;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     @Override

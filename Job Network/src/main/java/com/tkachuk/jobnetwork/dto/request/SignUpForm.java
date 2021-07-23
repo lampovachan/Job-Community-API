@@ -1,6 +1,12 @@
-package com.tkachuk.jobnetwork.message.request;
+package com.tkachuk.jobnetwork.dto.request;
 
 import javax.validation.constraints.*;
+
+/**
+ * Dto class for creating sign up request.
+ *
+ * @author Svitlana Tkachuk
+ */
 
 public class SignUpForm {
 

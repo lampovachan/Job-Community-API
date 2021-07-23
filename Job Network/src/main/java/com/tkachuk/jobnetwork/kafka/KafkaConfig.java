@@ -1,4 +1,4 @@
-package com.tkachuk.jobnetwork.service;
+package com.tkachuk.jobnetwork.kafka;
 
 import com.tkachuk.jobnetwork.model.User;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -13,6 +13,12 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Kafka config for producer application.
+ *
+ * @author Svitlana Tkachuk
+ */
 
 @Configuration
 public class KafkaConfig {

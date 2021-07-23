@@ -1,8 +1,14 @@
-package com.tkachuk.jobnetwork.message.response;
+package com.tkachuk.jobnetwork.dto.response;
 
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+
+/**
+ * Dto class for creating JWT response.
+ *
+ * @author Svitlana Tkachuk
+ */
 
 public class JwtResponse {
 	private String token;

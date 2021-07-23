@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tkachuk.jobnetwork.service.impl.UserDetailsServiceImpl;
+import com.tkachuk.jobnetwork.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,33 +17,40 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+
+/**
+ * JWT token filter that handles all HTTP requests to application.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtProvider tokenProvider;
 
     @Autowired
-    private UserDetailsServiceImpl userService;
+    private UserDetailsServiceImpl userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-    								HttpServletResponse response, 
-    								FilterChain filterChain) 
-    										throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, //
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
         try {
-        	
-            String jwt = getJwt(request);
-            if (jwt!=null && tokenProvider.validateJwtToken(jwt)) {
-                String username = tokenProvider.getUserNameFromJwtToken(jwt);
 
-                UserDetails userDetails = userService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication 
-                		= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            String jwt = getJwt(request); // запрос перемещаем в переменную String
+            if (jwt!=null && tokenProvider.validateJwtToken(jwt)) { // если переменная не пустая и проходит валидацию
+                String username = tokenProvider.getUserNameFromJwtToken(jwt); // достать имя пользователя из токена
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);// достаем из UserDetailService обьект по имени Username из базыы
+                UsernamePasswordAuthenticationToken authentication
+                        = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // собираем аутентификацию из всех данных пользователя
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication); // передача пользователя в контейнер SecurityContextHolder
             }
         } catch (Exception e) {
             logger.error("Can NOT set user authentication -> Message: {}", e);
@@ -54,9 +61,9 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
     private String getJwt(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
-        	
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-        	return authHeader.replace("Bearer ","");
+            return authHeader.replace("Bearer ","");
         }
 
         return null;

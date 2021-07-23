@@ -1,6 +1,6 @@
 package com.tkachuk.jobnetwork.security.jwt;
 
-import com.tkachuk.jobnetwork.service.impl.UserPrinciple;
+import com.tkachuk.jobnetwork.service.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +10,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * Util class that provides methods for generation, validation, etc. of JWT token.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Component
 public class JwtProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class); //todo
-
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
     @Value("${jwt.token.secret}")
     private String jwtSecret;
 
@@ -38,13 +43,13 @@ public class JwtProvider {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token -> Message: {}", e);
+            logger.error("Invalid JWT token -> Message: {UserDto not found}", e);
         } catch (ExpiredJwtException e) {
-            logger.error("Expired JWT token -> Message: {}", e);
+            logger.error("Expired JWT token -> Message: {Please, sign in again}", e);
         } catch (UnsupportedJwtException e) {
-            logger.error("Unsupported JWT token -> Message: {}", e);
+            logger.error("Unsupported JWT token -> Message: {Something went wrong}", e);
         } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty -> Message: {}", e);
+            logger.error("JWT claims string is empty -> Message: {Please, try again}", e);
         }
         
         return false;

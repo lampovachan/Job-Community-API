@@ -1,11 +1,8 @@
 package com.tkachuk.cvgenerator.controller;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.User;
-import com.tkachuk.cvgenerator.config.S3Config;
-import com.tkachuk.cvgenerator.model.Employee;
+import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.cvgenerator.service.impl.CVServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -39,8 +36,8 @@ public class CVController {
      */
     @KafkaListener(topics = "NewTopic", groupId = "group_id")
     @PostMapping("/create")
-    public String createCV(@RequestBody User user) throws IOException, DocumentException {
-        return cvService.createCV(user);
+    public String createCV(@RequestBody UserDto userDto) throws IOException, DocumentException {
+        return cvService.createCV(userDto);
     }
 
     /**
@@ -66,8 +63,8 @@ public class CVController {
      * @throws DocumentException
      */
     @PutMapping("/update/{id}")
-    public ResponseEntity<InputStreamResource> updateDocument (@PathVariable String id, @RequestBody User user) throws IOException, DocumentException {
-        cvService.updateCV(user, id);
+    public ResponseEntity<InputStreamResource> updateDocument (@PathVariable String id, @RequestBody UserDto userDto) throws IOException, DocumentException {
+        cvService.updateCV(userDto, id);
         S3Object object = cvService.getCV(id);
         return ResponseEntity.ok()
                 .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
