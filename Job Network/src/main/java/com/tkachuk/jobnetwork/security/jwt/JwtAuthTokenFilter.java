@@ -35,22 +35,22 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, //
+    protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
         try {
 
-            String jwt = getJwt(request); // запрос перемещаем в переменную String
-            if (jwt!=null && tokenProvider.validateJwtToken(jwt)) { // если переменная не пустая и проходит валидацию
-                String username = tokenProvider.getUserNameFromJwtToken(jwt); // достать имя пользователя из токена
+            String jwt = getJwt(request);
+            if (jwt!=null && tokenProvider.validateJwtToken(jwt)) {
+                String username = tokenProvider.getUserNameFromJwtToken(jwt);
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);// достаем из UserDetailService обьект по имени Username из базыы
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication
                         = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // собираем аутентификацию из всех данных пользователя
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication); // передача пользователя в контейнер SecurityContextHolder
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
             logger.error("Can NOT set user authentication -> Message: {}", e);
