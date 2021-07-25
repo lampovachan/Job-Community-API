@@ -2,8 +2,9 @@ package com.tkachuk.cvgenerator.service.impl;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
+import com.google.gson.Gson;
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.dto.User;
+import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.cvgenerator.service.CVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,13 +39,14 @@ public class CVServiceImpl implements CVService {
      * @throws IOException
      * @throws DocumentException
      */
-    private File parseAndGenerate(User user) throws IOException, DocumentException {
+    private File parseAndGenerate(UserDto user) throws IOException, DocumentException {
         String html = pdfGenerator.parseThymeleafTemplate(user);
         return pdfGenerator.generatePdfFromHtml(html);
     }
 
     @Override
-    public String createCV(User user) throws IOException, DocumentException {
+    public String createCV(String userRequest) throws IOException, DocumentException {
+        UserDto user = new Gson().fromJson(userRequest, UserDto.class);
         String filename = user.getCvUrl().split("/")[1];
         File file = parseAndGenerate(user);
 
@@ -61,7 +63,7 @@ public class CVServiceImpl implements CVService {
     }
 
     @Override
-    public void updateCV(User user, String fileName) throws IOException, DocumentException {
+    public void updateCV(UserDto user, String fileName) throws IOException, DocumentException {
         File file = parseAndGenerate(user);
         configure.putObject(bucketName, fileName + EXTENSION, file);
     }

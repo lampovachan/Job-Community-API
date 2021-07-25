@@ -1,5 +1,6 @@
 package com.tkachuk.jobnetwork.service;
 
+import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.jobnetwork.message.request.LoginForm;
 import com.tkachuk.jobnetwork.message.request.SignUpForm;
 import com.tkachuk.jobnetwork.model.User;
@@ -58,4 +59,9 @@ public class AuthService {
         userRepository.save(user);
     }
 
+    public User checkAuth(UserDto userRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        return userRepository.findByUsername(currentPrincipalName).get();
+    }
 }

@@ -1,7 +1,7 @@
 package com.tkachuk.cvgenerator.service.impl;
 
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.dto.User;
+import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.cvgenerator.service.PdfGenerator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -34,7 +34,7 @@ public class PdfGeneratorImpl implements PdfGenerator {
     }
 
     @Override
-    public String parseThymeleafTemplate(User user) {
+    public String parseThymeleafTemplate(UserDto user) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);

@@ -1,6 +1,7 @@
 package com.tkachuk.jobnetwork.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,6 +12,9 @@ import java.util.Date;
 @Table(name = "experience")
 @Data
 public class Experience implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "start_date")
     private Date start;
@@ -18,16 +22,14 @@ public class Experience implements Serializable {
     @Column(name = "end_date")
     private Date end;
 
-    @EmbeddedId
-    private ExperiencePK id;
-
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("user_id")
     private User user;
 
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("company_id")
+    @JoinColumn(name = "company_id")
     private Company company;
 
     public Experience(Date start, Date end, User user, Company company) {

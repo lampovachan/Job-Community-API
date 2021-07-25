@@ -18,10 +18,6 @@ public class Company {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "company")
-    private List<Experience> experiences;
-
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private List<Photo> photos;

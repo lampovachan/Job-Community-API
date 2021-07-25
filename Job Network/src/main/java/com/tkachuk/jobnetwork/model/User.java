@@ -17,7 +17,9 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
+
     @JsonIgnore
     @Column(name = "username")
     private String username;
@@ -27,6 +29,7 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
+
     @JsonIgnore
     @Column(name = "email")
     private String email;
@@ -48,10 +51,10 @@ public class User {
     }
 
     public User() {
-
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     private List<Experience> experiences;
 
     public User(String firstName, String lastName, List<Experience> experienceList) {
