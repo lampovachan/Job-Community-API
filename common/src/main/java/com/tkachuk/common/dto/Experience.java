@@ -7,7 +7,7 @@ public class Experience {
 
     private Date end;
 
-    private Company company;
+    private CompanyDto company;
 
     public Date getStart() {
         return start;
@@ -25,11 +25,11 @@ public class Experience {
         this.end = end;
     }
 
-    public Company getCompany() {
+    public CompanyDto getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(CompanyDto company) {
         this.company = company;
     }
 }
