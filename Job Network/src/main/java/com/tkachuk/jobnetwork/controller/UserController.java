@@ -3,8 +3,11 @@ package com.tkachuk.jobnetwork.controller;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.tkachuk.jobnetwork.message.request.ExperienceRequest;
 import com.tkachuk.jobnetwork.message.request.UserRequest;
+import com.tkachuk.jobnetwork.message.response.UserResponse;
 import com.tkachuk.jobnetwork.model.Company;
 import com.tkachuk.jobnetwork.model.Experience;
 import com.tkachuk.jobnetwork.model.Photo;
@@ -20,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -124,14 +128,14 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         Experience experience = new Experience(experienceRequest.getStart(), experienceRequest.getEnd(), user.get(), company.get());
         experienceRepository.save(experience);
-        List<Experience> companyExperiences = company.get().getExperiences();
-        List<Experience> userExperiences = user.get().getExperiences();
-        companyExperiences.add(experience);
-        userExperiences.add(experience);
-        company.get().setExperiences(companyExperiences);
-        user.get().setExperiences(userExperiences);
-        companyRepository.save(company.get());
-        userRepository.save(user.get());
+//        List<Experience> companyExperiences = company.get().getExperiences();
+//        List<Experience> userExperiences = user.get().getExperiences();
+//        companyExperiences.add(experience);
+//        userExperiences.add(experience);
+//        company.get().setExperiences(companyExperiences);
+//        user.get().setExperiences(userExperiences);
+//        companyRepository.save(company.get());
+//        userRepository.save(user.get());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

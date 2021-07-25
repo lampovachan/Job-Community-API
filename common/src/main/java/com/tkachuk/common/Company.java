@@ -1,8 +1,8 @@
 package com.tkachuk.common;
 
-import java.util.List;
-
 public class Company {
+    private String name;
+
     public String getName() {
         return name;
     }
@@ -11,21 +11,8 @@ public class Company {
         this.name = name;
     }
 
-    public List<Experience> getExperiences() {
-        return experiences;
-    }
-
-    public void setExperiences(List<Experience> experiences) {
-        this.experiences = experiences;
-    }
-
-    private String name;
-
-    private List<Experience> experiences;
-
-    public Company(String name, List<Experience> experiences) {
+    public Company(String name) {
         this.name = name;
-        this.experiences = experiences;
     }
 
     public Company() {}

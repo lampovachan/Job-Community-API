@@ -8,6 +8,22 @@ public class User {
 
     private String lastName;
 
+    private String cvUrl;
+
+    private String photo;
+
+    public List<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setCvUrl(String cvUrl) {
+        this.cvUrl = cvUrl;
+    }
+
+    public String getCvUrl() {
+        return cvUrl;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -24,15 +40,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public List<Experience> getExperiences() {
-        return experiences;
-    }
-
     public void setExperiences(List<Experience> experiences) {
         this.experiences = experiences;
     }
-
     private List<Experience> experiences;
+
 
     public User(String firstName, String lastName, List<Experience> experienceList) {
         this.firstName = firstName;
@@ -47,6 +59,4 @@ public class User {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-
-    private String photo;
 }

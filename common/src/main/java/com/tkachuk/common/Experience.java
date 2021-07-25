@@ -7,6 +7,8 @@ public class Experience {
 
     private Date end;
 
+    private Company company;
+
     public Date getStart() {
         return start;
     }
@@ -23,14 +25,6 @@ public class Experience {
         this.end = end;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Company getCompany() {
         return company;
     }
@@ -38,8 +32,4 @@ public class Experience {
     public void setCompany(Company company) {
         this.company = company;
     }
-
-    private User user;
-
-    private Company company;
 }

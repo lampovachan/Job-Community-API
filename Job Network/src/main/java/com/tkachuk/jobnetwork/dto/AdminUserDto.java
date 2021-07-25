@@ -28,7 +28,6 @@ public class AdminUserDto {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
-        user.setStatus(Status.valueOf(status));
         return user;
     }
 
@@ -39,7 +38,6 @@ public class AdminUserDto {
         adminUserDto.setFirstName(user.getFirstName());
         adminUserDto.setLastName(user.getLastName());
         adminUserDto.setEmail(user.getEmail());
-        adminUserDto.setStatus(user.getStatus().name());
         return adminUserDto;
     }
 }

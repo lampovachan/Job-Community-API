@@ -47,7 +47,7 @@ public class CVServiceImpl implements CVService {
 
     @Override
     public String createCV(User user) throws IOException, DocumentException {
-        String filename = UUID.randomUUID().toString();
+        String filename = user.getCvUrl().split("/")[1];
         File file = parseAndGenerate(user);
 
         if (!configure.doesBucketExist(bucketName)) {

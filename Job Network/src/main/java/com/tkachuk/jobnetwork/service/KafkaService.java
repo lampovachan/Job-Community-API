@@ -1,5 +1,6 @@
 package com.tkachuk.jobnetwork.service;
 
+import com.tkachuk.jobnetwork.message.response.UserResponse;
 import com.tkachuk.jobnetwork.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
