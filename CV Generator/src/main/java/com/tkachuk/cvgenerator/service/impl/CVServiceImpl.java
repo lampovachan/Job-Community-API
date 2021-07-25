@@ -3,8 +3,7 @@ package com.tkachuk.cvgenerator.service.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.User;
-import com.tkachuk.cvgenerator.model.Employee;
+import com.tkachuk.common.dto.User;
 import com.tkachuk.cvgenerator.service.CVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Service implementing methods for working with employee's CV.

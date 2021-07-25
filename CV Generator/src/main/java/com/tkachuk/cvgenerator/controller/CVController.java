@@ -1,11 +1,8 @@
 package com.tkachuk.cvgenerator.controller;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.User;
-import com.tkachuk.cvgenerator.config.S3Config;
-import com.tkachuk.cvgenerator.model.Employee;
+import com.tkachuk.common.dto.User;
 import com.tkachuk.cvgenerator.service.impl.CVServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;

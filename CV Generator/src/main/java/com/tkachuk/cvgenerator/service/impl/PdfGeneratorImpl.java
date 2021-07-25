@@ -1,8 +1,7 @@
 package com.tkachuk.cvgenerator.service.impl;
 
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.User;
-import com.tkachuk.cvgenerator.model.Employee;
+import com.tkachuk.common.dto.User;
 import com.tkachuk.cvgenerator.service.PdfGenerator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;

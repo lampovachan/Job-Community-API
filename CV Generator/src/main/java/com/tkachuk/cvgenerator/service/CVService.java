@@ -2,8 +2,7 @@ package com.tkachuk.cvgenerator.service;
 
 import com.amazonaws.services.s3.model.S3Object;
 import com.lowagie.text.DocumentException;
-import com.tkachuk.common.User;
-import com.tkachuk.cvgenerator.model.Employee;
+import com.tkachuk.common.dto.User;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.tkachuk.common;
+package com.tkachuk.common.dto;
 
 public class Company {
     private String name;
