@@ -3,15 +3,9 @@ package com.tkachuk.jobnetwork.message.request;
 import com.tkachuk.jobnetwork.model.Company;
 import com.tkachuk.jobnetwork.model.User;
 import com.tkachuk.jobnetwork.repository.UserRepository;
-import com.tkachuk.jobnetwork.service.impl.UserDetailsServiceImpl;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
 import java.util.Date;
 import java.util.Optional;
 

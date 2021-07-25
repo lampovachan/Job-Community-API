@@ -1,6 +1,6 @@
 package com.tkachuk.jobnetwork.security.jwt;
 
-import com.tkachuk.jobnetwork.service.impl.UserPrinciple;
+import com.tkachuk.jobnetwork.service.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

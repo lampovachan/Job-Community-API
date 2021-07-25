@@ -1,4 +1,4 @@
-package com.tkachuk.jobnetwork.service.impl;
+package com.tkachuk.jobnetwork.service;
 
 import com.tkachuk.jobnetwork.model.User;
 import com.tkachuk.jobnetwork.repository.UserRepository;
@@ -35,17 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 );
 
         return UserPrinciple.build(user);
-    }
-
-    @Transactional
-    public User findUserById(Long id) throws Exception {
-
-        User user = userRepository.findById(id)
-                .orElseThrow(() ->
-                        new Exception("User Not Found with -> username or email : " + id)
-                );
-
-        return user;
     }
 
 }
