@@ -15,6 +15,7 @@ import java.io.IOException;
 
 /**
  * Service implementing methods for working with employee's CV.
+ *
  * @author Svitlana Tkachuk
  */
 

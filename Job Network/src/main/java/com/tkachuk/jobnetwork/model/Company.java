@@ -6,6 +6,12 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Simple object that represents company.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Entity
 @Table(name = "companies")
 @Data

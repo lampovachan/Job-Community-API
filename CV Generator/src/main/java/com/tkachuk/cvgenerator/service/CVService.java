@@ -8,6 +8,8 @@ import java.io.IOException;
 
 /**
  * Interface representing operations with employee's CV.
+ *
+ * @author Svitlana Tkachuk
  */
 
 public interface CVService {

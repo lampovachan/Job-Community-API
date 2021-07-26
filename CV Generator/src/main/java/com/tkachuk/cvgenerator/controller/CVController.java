@@ -37,7 +37,6 @@ public class CVController {
     @KafkaListener(topics = "NewTopic", groupId = "group_id")
     @PostMapping("/create")
     public String createCV(@RequestBody String userRequest) throws IOException, DocumentException {
-        System.out.println("i am here");
         return cvService.createCV(userRequest);
     }
 

@@ -9,6 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for company requests.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Service
 public class CompanyService {
     @Autowired

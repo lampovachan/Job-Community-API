@@ -3,20 +3,34 @@ package com.tkachuk.jobnetwork.controller;
 import com.tkachuk.common.dto.CompanyDto;
 import com.tkachuk.jobnetwork.model.Company;
 import com.tkachuk.jobnetwork.service.CompanyService;
+import com.tkachuk.jobnetwork.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.*;
+
+/**
+ * Rest controller for company requests.
+ *
+ * @author Svitlana Tkachuk
+ */
 
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-    @Autowired
-    CompanyService companyService;
+    private final CompanyService companyService;
+    private final PhotoService photoService;
 
+    @Autowired
+    public CompanyController(CompanyService companyService, PhotoService photoService) {
+        this.companyService = companyService;
+        this.photoService = photoService;
+    }
 
     @PostMapping("/")
     public ResponseEntity<String> addCompany(@Valid @RequestBody CompanyDto companyRequest) {
@@ -51,8 +65,14 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/")
     public List<Company> getAllCompanies() {
         return companyService.getAllCompanies();
+    }
+
+    @PostMapping("/{id}/uploadFile")
+    public String uploadFile(@RequestPart(value = "file") MultipartFile multipartFile, @PathVariable Long id) throws IOException {
+        return photoService.uploadFileOfCompany(multipartFile, id);
     }
 }

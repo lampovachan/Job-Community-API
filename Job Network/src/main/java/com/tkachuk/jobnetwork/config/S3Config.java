@@ -7,6 +7,12 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for using S3 as storage.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Configuration
 public class S3Config {
     @Bean

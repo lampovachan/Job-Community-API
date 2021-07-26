@@ -8,7 +8,10 @@ import java.io.IOException;
 
 /**
  * Interface representing methods for parsing HTML to PDF file.
+ *
+ * @author Svitlana Tkachuk
  */
+
 public interface PdfGenerator {
     /**
      * This method generates PDF from HTML creating ITextRenderer object and using its methods for this goal.

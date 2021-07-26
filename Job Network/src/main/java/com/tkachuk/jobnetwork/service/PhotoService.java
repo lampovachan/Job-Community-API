@@ -21,6 +21,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Service class for photo requests.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Service
 public class PhotoService {
     @Value("${localstack.s3.bucketName}")
@@ -63,55 +69,63 @@ public class PhotoService {
         return "Uploading Successfull -> ";
     }
 
-    public String uploadFileOfCompany(MultipartFile multipartFile, Long id) {
+    private File getFile(MultipartFile multipartFile) throws IOException {
+        File file = convertMultiPartToFile(multipartFile);
+        return file;
+    }
+    private String getFilename(MultipartFile multipartFile) {
+        String fileName = multipartFile.getOriginalFilename();
+        return fileName;
+    }
 
-        String fileUrl = "";
-        String  status = null;
-        try {
-            File file = convertMultiPartToFile(multipartFile);
-            Company company1 = new Company();
+    private String uploadWrapper(MultipartFile multipartFile) throws IOException {
+        File file = getFile(multipartFile);
+        String fileName = getFilename(multipartFile);
+        String status = uploadFileTos3bucket(fileName, file);
+        return status;
+    }
 
-            String fileName = multipartFile.getOriginalFilename();
+    private Company saveCompanyPhoto(Long id) {
+        Optional<Company> company = companyRepository.findById(id);
+        Company company1 = new Company();
 
-            fileUrl = bucketName + "/" + fileName;
-
-            status = uploadFileTos3bucket(fileName, file);
-            Optional<Company> company = companyRepository.findById(id);
-
-            if (company.isPresent()) {
-                company1 = company.get();
-            }
-            Photo photo = new Photo(fileUrl, company1);
-            photoRepository.save(photo);
-
-            file.delete();
-        } catch (Exception e) {
-
-            return "UploadController().uploadFile().Exception : " + e.getMessage();
-
+        if (company.isPresent()) {
+            company1 = company.get();
         }
+        return company1;
+    }
+
+    private String saveUserPhoto(MultipartFile multipartFile) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        Optional<User> user = userRepository.findByUsername(userName);
+        String fileName = getFilename(multipartFile);
+        String fileUrl = "";
+        fileUrl = bucketName2 + "/" + fileName;
+        user.get().setPhotoUrl(fileUrl);
+        userRepository.save(user.get());
+        return fileUrl;
+    }
+
+    public String uploadFileOfCompany(MultipartFile multipartFile, Long id) throws IOException {
+        String fileUrl = "";
+        File file = getFile(multipartFile);
+        String fileName = getFilename(multipartFile);
+        String status = uploadWrapper(multipartFile);
+        fileUrl = bucketName + "/" + fileName;
+        Company company1 = saveCompanyPhoto(id);
+        Photo photo = new Photo(fileUrl, company1);
+        photoRepository.save(photo);
+        file.delete();
         return status + " " +  fileUrl;
     }
 
     public String uploadFileOfUser(MultipartFile multipartFile) throws IOException {
-        String fileUrl = "";
-        String  status = null;
-        File file = convertMultiPartToFile(multipartFile);
-        String fileName = multipartFile.getOriginalFilename();
-        fileUrl = bucketName + "/" + fileName;
-        status = uploadFileTos3bucket(fileName, file);
-
-        System.out.println(fileUrl);
-        System.out.println(status);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        Optional<User> user = userRepository.findByUsername(userName);
-        user.get().setPhotoUrl(fileUrl);
-        userRepository.save(user.get());
+        File file = getFile(multipartFile);
+        String status = uploadWrapper(multipartFile);
+        String fileUrl = saveUserPhoto(multipartFile);
 
         file.delete();
         return status + " " + fileUrl;
     }
-
 }

@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * Util class that provides methods for generation, validation, etc. of JWT token.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Component
 public class JwtProvider {
 

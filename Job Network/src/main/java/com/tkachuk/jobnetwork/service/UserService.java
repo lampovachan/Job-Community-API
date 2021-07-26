@@ -16,23 +16,33 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Service class for user requests.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final AuthService authService;
+
+    private final ExperienceRepository experienceRepository;
+
+    private final CompanyRepository companyRepository;
 
     @Autowired
-    AuthService authService;
-
-    @Autowired
-    ExperienceRepository experienceRepository;
-
-    @Autowired
-    CompanyRepository companyRepository;
+    public UserService(UserRepository userRepository, AuthService authService, ExperienceRepository experienceRepository, CompanyRepository companyRepository) {
+        this.userRepository = userRepository;
+        this.authService = authService;
+        this.experienceRepository = experienceRepository;
+        this.companyRepository = companyRepository;
+    }
 
     public User addData(UserDto userRequest) {
-        User user = authService.checkAuth(userRequest);
+        User user = authService.checkAuth();
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         String cvName = UUID.randomUUID().toString();

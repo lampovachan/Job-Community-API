@@ -17,6 +17,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * JWT token filter that handles all HTTP requests to application.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired

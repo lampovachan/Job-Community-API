@@ -18,17 +18,16 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Rest controller for user requests.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    CompanyRepository companyRepository;
-
-    @Autowired
-    ExperienceRepository experienceRepository;
+    private final UserService userService;
     private final KafkaService kafkaService;
     private final PhotoService photoService;
 

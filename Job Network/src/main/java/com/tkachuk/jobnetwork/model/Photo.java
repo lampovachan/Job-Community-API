@@ -3,6 +3,12 @@ package com.tkachuk.jobnetwork.model;
 import javax.persistence.*;
 import java.util.Optional;
 
+/**
+ * Simple object that represents company photo.
+ *
+ * @author Svitlana Tkachuk
+ */
+
 @Table(name = "photos")
 @Entity
 public class Photo {

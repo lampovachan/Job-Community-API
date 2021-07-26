@@ -5,13 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+
+/**
+ * Simple object that represents user experience.
+ *
+ * @author Svitlana Tkachuk
+ */
 
 @Entity
 @Table(name = "experience")
 @Data
-public class Experience implements Serializable {
+public class Experience {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

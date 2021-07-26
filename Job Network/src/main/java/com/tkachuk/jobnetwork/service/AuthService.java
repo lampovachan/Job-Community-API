@@ -1,8 +1,7 @@
 package com.tkachuk.jobnetwork.service;
 
-import com.tkachuk.common.dto.UserDto;
-import com.tkachuk.jobnetwork.message.request.LoginForm;
-import com.tkachuk.jobnetwork.message.request.SignUpForm;
+import com.tkachuk.jobnetwork.dto.request.LoginForm;
+import com.tkachuk.jobnetwork.dto.request.SignUpForm;
 import com.tkachuk.jobnetwork.model.User;
 import com.tkachuk.jobnetwork.repository.UserRepository;
 import com.tkachuk.jobnetwork.security.jwt.JwtProvider;
@@ -14,6 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+/**
+ * Service class for sign up and sign in requests.
+ *
+ * @author Svitlana Tkachuk
+ */
 
 @Service
 public class AuthService {
@@ -59,9 +64,17 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public User checkAuth(UserDto userRequest) {
+    public User checkAuth() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         return userRepository.findByUsername(currentPrincipalName).get();
+    }
+
+    public boolean existsByUsername(SignUpForm signUpRequest) {
+        return userRepository.existsByUsername(signUpRequest.getUsername());
+    }
+
+    public boolean existsByEmail(SignUpForm signUpRequest) {
+        return userRepository.existsByEmail(signUpRequest.getEmail());
     }
 }
