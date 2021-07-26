@@ -1,5 +1,7 @@
 package com.tkachuk.jobnetwork.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
 import com.tkachuk.common.dto.ExperienceDto;
 import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.jobnetwork.model.Company;
@@ -33,12 +35,15 @@ public class UserService {
 
     private final CompanyRepository companyRepository;
 
+    private final AmazonS3 configure;
+
     @Autowired
-    public UserService(UserRepository userRepository, AuthService authService, ExperienceRepository experienceRepository, CompanyRepository companyRepository) {
+    public UserService(UserRepository userRepository, AuthService authService, ExperienceRepository experienceRepository, CompanyRepository companyRepository, AmazonS3 configure) {
         this.userRepository = userRepository;
         this.authService = authService;
         this.experienceRepository = experienceRepository;
         this.companyRepository = companyRepository;
+        this.configure = configure;
     }
 
     public User addData(UserDto userRequest) {
@@ -87,5 +92,10 @@ public class UserService {
         Optional<Company> company = companyRepository.findById(experienceRequest.getCompanyId());
         Experience experience = new Experience(experienceRequest.getStart(), experienceRequest.getEnd(), user.get(), company.get());
         experienceRepository.save(experience);
+    }
+
+
+    public S3Object getCvFromS3(String fileName) {
+        return configure.getObject("test", fileName + ".pdf");
     }
 }

@@ -1,6 +1,5 @@
 package com.tkachuk.jobnetwork.controller;
 
-import com.tkachuk.common.dto.CompanyDto;
 import com.tkachuk.jobnetwork.model.Company;
 import com.tkachuk.jobnetwork.service.CompanyService;
 import com.tkachuk.jobnetwork.service.PhotoService;
@@ -33,13 +32,13 @@ public class CompanyController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> addCompany(@Valid @RequestBody CompanyDto companyRequest) {
+    public ResponseEntity<String> addCompany(@Valid @RequestBody Company companyRequest) {
         companyService.saveCompanyData(companyRequest);
         return ResponseEntity.ok().body("Company added successfully!");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCompany(@PathVariable Long id, @Valid @RequestBody CompanyDto companyRequest) {
+    public ResponseEntity<?> updateCompany(@PathVariable Long id, @Valid @RequestBody Company companyRequest) {
 
         if (companyService.updateCompanyById(id, companyRequest) != null) {
             return new ResponseEntity<>(HttpStatus.OK);

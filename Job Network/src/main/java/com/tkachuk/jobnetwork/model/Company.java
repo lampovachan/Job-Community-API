@@ -33,4 +33,8 @@ public class Company {
     public Company(String name) {
         this.name = name;
     }
+    public Company(Long id, String name){
+        this.id = id;
+        this.name = name;
+    }
 }

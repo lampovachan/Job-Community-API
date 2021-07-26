@@ -1,6 +1,5 @@
 package com.tkachuk.jobnetwork.service;
 
-import com.tkachuk.common.dto.CompanyDto;
 import com.tkachuk.jobnetwork.model.Company;
 import com.tkachuk.jobnetwork.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class CompanyService {
     @Autowired
     CompanyRepository companyRepository;
 
-    public void saveCompanyData(CompanyDto companyRequest) {
+    public void saveCompanyData(Company companyRequest) {
         Company company = new Company(companyRequest.getName());
         companyRepository.save(company);
     }
@@ -33,7 +32,7 @@ public class CompanyService {
         return companyRepository.findById(id);
     }
 
-    public Company updateCompanyById(Long id, CompanyDto companyRequest) {
+    public Company updateCompanyById(Long id, Company companyRequest) {
         Optional<Company> company = findCompanyById(id);
         if (company.isPresent()) {
             Company company1 = company.get();

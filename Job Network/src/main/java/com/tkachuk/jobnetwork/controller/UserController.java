@@ -1,14 +1,15 @@
 package com.tkachuk.jobnetwork.controller;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.tkachuk.common.dto.ExperienceDto;
 import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.jobnetwork.model.User;
 import com.tkachuk.jobnetwork.kafka.KafkaService;
-import com.tkachuk.jobnetwork.repository.CompanyRepository;
-import com.tkachuk.jobnetwork.repository.ExperienceRepository;
 import com.tkachuk.jobnetwork.service.PhotoService;
 import com.tkachuk.jobnetwork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +74,21 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/cv")
+    public ResponseEntity<?> getUserCv() {
+        Optional<User> user = userService.check();
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        S3Object object = userService.getCvFromS3(user.get().getCvUrl().split("/")[1]);
+        return ResponseEntity.ok()
+                .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
+                .cacheControl(CacheControl.noCache())
+                .header("Content-Disposition", "attachment; filename=" + user.get().getCvUrl().split("/")[1] + ".pdf")
+                .body(new InputStreamResource(object.getObjectContent()));
     }
 
     @PostMapping("/experience")
