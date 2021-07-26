@@ -1,6 +1,8 @@
 package com.tkachuk.common.dto;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,9 +13,10 @@ import java.util.Date;
 
 public class ExperienceDto {
 
-    public ExperienceDto(Long start, Long end, Long companyId) {
-        this.start = start;
-        this.end = end;
+    public ExperienceDto(String start, String end, Long companyId) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.start = dateFormat.parse(start).getTime();
+        this.end = dateFormat.parse(end).getTime();
         this.companyId = companyId;
     }
 

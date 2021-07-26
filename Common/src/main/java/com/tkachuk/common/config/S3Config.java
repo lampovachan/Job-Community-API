@@ -1,4 +1,4 @@
-package com.tkachuk.cvgenerator.config;
+package com.tkachuk.common.config;
 
 import com.amazonaws.SDKGlobalConfiguration;
 import com.amazonaws.client.builder.AwsClientBuilder;
@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Configuration class for using S3 as storage.
-*
-* @author Svitlana Tkachuk
-*/
+ *
+ * @author Svitlana Tkachuk
+ */
 
 @Configuration
 public class S3Config {

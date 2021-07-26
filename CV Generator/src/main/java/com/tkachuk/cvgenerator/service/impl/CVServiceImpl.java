@@ -8,6 +8,7 @@ import com.tkachuk.common.dto.UserDto;
 import com.tkachuk.cvgenerator.service.CVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -20,13 +21,14 @@ import java.io.IOException;
  */
 
 @Service
+@Component
 public class CVServiceImpl implements CVService {
     @Value("${localstack.s3.bucketName}")
     private String bucketName;
     private final String EXTENSION = ".pdf";
 
-    private AmazonS3 configure;
-    private PdfGeneratorImpl pdfGenerator;
+    private final AmazonS3 configure;
+    private final PdfGeneratorImpl pdfGenerator;
 
     @Autowired
     public CVServiceImpl(PdfGeneratorImpl pdfGenerator, AmazonS3 configure) {

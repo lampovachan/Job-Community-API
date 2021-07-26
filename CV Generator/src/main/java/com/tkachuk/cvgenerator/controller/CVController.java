@@ -21,7 +21,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/cv")
 public class CVController {
-    private CVServiceImpl cvService;
+    private final CVServiceImpl cvService;
 
     @Autowired
     public CVController(CVServiceImpl cvService) {
@@ -62,6 +62,7 @@ public class CVController {
      * @throws IOException
      * @throws DocumentException
      */
+
     @PutMapping("/update/{id}")
     public ResponseEntity<InputStreamResource> updateDocument (@PathVariable String id, @RequestBody UserDto user) throws IOException, DocumentException {
         cvService.updateCV(user, id);
@@ -78,6 +79,7 @@ public class CVController {
      * @param id is filename that is needed
      * @return information about successful operation.
      */
+
     @DeleteMapping("/{id}")
     public String deleteDocument(@PathVariable String id) {
         cvService.deleteCV(id);

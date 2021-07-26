@@ -61,6 +61,7 @@ public class CompanyControllerTest {
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[2].name", is("thirdCompany")));
     }
+
     @Test
     public void createCompanySuccessful() throws Exception {
         Company company = new Company("newCompany");
