@@ -1,13 +1,11 @@
-package com.tkachuk.jobnetwork;
+package com.tkachuk.cvgenerator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class JobnetworkApplication {
-
+@SpringBootApplication(scanBasePackages = {"com.tkachuk"})
+public class CVGenerator {
     public static void main(String[] args) {
-        SpringApplication.run(JobnetworkApplication.class, args);
+        SpringApplication.run(CVGenerator.class, args);
     }
-
 }

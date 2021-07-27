@@ -14,7 +14,7 @@ localstack:
     sqs:
         enabled: false
 server:
-    port: 8082
+    port: 8076
 spring:
     datasource:
         driver-class-name: org.postgresql.Driver

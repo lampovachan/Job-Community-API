@@ -108,26 +108,4 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
-
-    @Test
-    public void addExperienceSuccessful() throws Exception {
-        Company company = new Company(1L, "company");
-        Mockito.when(companyRepository.getById(company.getId())).thenReturn(company);
-        ExperienceDto experience = new ExperienceDto(
-                "2020-07-07", "2021-07-07", 1L);
-        Experience exp = new Experience(
-                new Date(2020, Calendar.JULY, 7),
-                new Date(2021, Calendar.JULY, 7), user, company);
-        Mockito.when(experienceRepository.save(exp)).thenReturn(exp);
-
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/users/experience")
-                .header("Authorization", "Bearer " + jwt)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(experience));
-
-        mockMvc.perform(mockRequest)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", notNullValue()));
-    }
 }
