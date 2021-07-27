@@ -3,7 +3,8 @@ version: '3'
 services:
     cvgenerator:
         build:
-            dockerfile: cvgenerator/Dockerfile
+            context: cvgenerator
+            dockerfile: ./Dockerfile
         ports:
             - "8081:8081"
         depends_on:
@@ -12,7 +13,8 @@ services:
 
     jobnetwork:
         build:
-            dockerfile: jobnetwork/Dockerfile
+            context: jobnetwork/
+            dockerfile: ./Dockerfile
         ports:
             - "8076:8076"
         depends_on:

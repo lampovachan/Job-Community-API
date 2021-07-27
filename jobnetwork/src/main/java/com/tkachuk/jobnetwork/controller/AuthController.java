@@ -4,6 +4,8 @@ import com.tkachuk.jobnetwork.dto.request.LoginForm;
 import com.tkachuk.jobnetwork.dto.request.SignUpForm;
 import com.tkachuk.jobnetwork.dto.response.JwtResponse;
 import com.tkachuk.jobnetwork.service.AuthService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @ApiOperation("sign up request")
     public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
         if(authService.existsByUsername(signUpRequest)) {
             return new ResponseEntity<String>("Fail -> Username is already taken!",

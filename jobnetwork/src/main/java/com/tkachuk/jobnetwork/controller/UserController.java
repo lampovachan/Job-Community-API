@@ -7,6 +7,8 @@ import com.tkachuk.jobnetwork.model.User;
 import com.tkachuk.jobnetwork.kafka.KafkaService;
 import com.tkachuk.jobnetwork.service.PhotoService;
 import com.tkachuk.jobnetwork.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.CacheControl;
@@ -40,6 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/data")
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public ResponseEntity<String> addUserData(@Valid @RequestBody UserDto userRequest) {
         User user = userService.addData(userRequest);
         userService.saveUser(user);
@@ -48,6 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/data")
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public ResponseEntity<?> updateUserData(@Valid @RequestBody UserDto userRequest) {
         if (userService.updateData(userRequest) != null) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -57,6 +61,7 @@ public class UserController {
     }
 
     @DeleteMapping("/data")
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public ResponseEntity<?> deleteUser() {
         try {
             userService.deleteUser();
@@ -67,6 +72,7 @@ public class UserController {
     }
 
     @GetMapping("/data")
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public ResponseEntity<?> getUserData() {
         Optional<User> user = userService.check();
         if (user.isPresent()) {
@@ -77,6 +83,7 @@ public class UserController {
     }
 
     @GetMapping("/cv")
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public ResponseEntity<?> getUserCv() {
         Optional<User> user = userService.check();
         if (!user.isPresent()) {
@@ -92,12 +99,14 @@ public class UserController {
     }
 
     @PostMapping("/experience")
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public ResponseEntity<?> addExperience(@Valid @RequestBody ExperienceDto experienceRequest) {
         userService.addExperience(experienceRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/uploadFile")
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public String uploadFile(@RequestPart(value = "file") MultipartFile multipartFile) throws IOException {
         return photoService.uploadFileOfUser(multipartFile);
     }
