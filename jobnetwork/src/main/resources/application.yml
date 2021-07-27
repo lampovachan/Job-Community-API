@@ -3,7 +3,7 @@ jwt:
         expired: 3600000
         secret: jwtappdemo
 kafka:
-    bootstrapAddress: localhost:9092
+    bootstrapAddress: kafka:9092
 localstack:
     enabled: true
     s3:
@@ -19,7 +19,7 @@ spring:
     datasource:
         driver-class-name: org.postgresql.Driver
         password: root
-        url: jdbc:postgresql://localhost:5432/postgres
+        url: jdbc:postgresql://db:5432/postgres
         username: root
     jpa:
         hibernate:

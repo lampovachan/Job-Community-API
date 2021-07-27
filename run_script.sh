@@ -1,1 +1,1 @@
-mvn clean install && docker-compose up -d
+mvn clean install -DskipTests && docker-compose up -d
