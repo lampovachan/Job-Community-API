@@ -1,6 +1,7 @@
 package com.tkachuk.jobnetwork.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 public class Company {
     @Id
+    @ApiModelProperty(required = false, hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

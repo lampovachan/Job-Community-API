@@ -1,5 +1,7 @@
 package com.tkachuk.common.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 
@@ -14,12 +16,15 @@ public class UserDto {
 
     private String lastName;
 
+    @ApiModelProperty(required = false, hidden = true)
     private List<ExperienceDto> experiences;
 
+    @ApiModelProperty(required = false, hidden = true)
     private String photo;
 
+    @ApiModelProperty(required = false, hidden = true)
     private String cvUrl;
-
+    @ApiModelProperty(hidden = true)
     private String photoUrl;
 
     public UserDto(String firstName, String lastName, List<ExperienceDto> experienceDtoList) {
