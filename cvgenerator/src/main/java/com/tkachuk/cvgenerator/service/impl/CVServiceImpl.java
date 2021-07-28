@@ -21,17 +21,16 @@ import java.io.IOException;
  */
 
 @Service
-@Component
 public class CVServiceImpl implements CVService {
-    @Value("${localstack.s3.bucketName}")
-    private String bucketName;
+    private final String bucketName;
     private final String EXTENSION = ".pdf";
 
     private final AmazonS3 configure;
     private final PdfGeneratorImpl pdfGenerator;
 
     @Autowired
-    public CVServiceImpl(PdfGeneratorImpl pdfGenerator, AmazonS3 configure) {
+    public CVServiceImpl( @Value("${localstack.s3.bucketName}")String bucketName, PdfGeneratorImpl pdfGenerator, AmazonS3 configure) {
+        this.bucketName = bucketName;
         this.pdfGenerator = pdfGenerator;
         this.configure = configure;
     }

@@ -30,19 +30,17 @@ import java.util.Optional;
 
 @Service
 public class PhotoService {
-    @Value("${localstack.s3.bucketName}")
-    private String bucketName;
-
-    @Value("${localstack.s3.bucketName2}")
-    private String bucketName2;
-
+    private final String bucketName;
+    private final String bucketName2;
     private final AmazonS3 configure;
     private final PhotoRepository photoRepository;
     private final CompanyRepository companyRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public PhotoService(AmazonS3 configure, PhotoRepository photoRepository, CompanyRepository companyRepository, UserRepository userRepository) {
+    public PhotoService( @Value("${localstack.s3.bucketName}")String bucketName, @Value("${localstack.s3.bucketName2}")String bucketName2, AmazonS3 configure, PhotoRepository photoRepository, CompanyRepository companyRepository, UserRepository userRepository) {
+        this.bucketName = bucketName;
+        this.bucketName2 = bucketName2;
         this.configure = configure;
         this.photoRepository = photoRepository;
         this.companyRepository = companyRepository;
@@ -71,20 +69,17 @@ public class PhotoService {
     }
 
     private File getFile(MultipartFile multipartFile) throws IOException {
-        File file = convertMultiPartToFile(multipartFile);
-        return file;
+        return convertMultiPartToFile(multipartFile);
     }
 
     private String getFilename(MultipartFile multipartFile) {
-        String fileName = multipartFile.getOriginalFilename();
-        return fileName;
+        return multipartFile.getOriginalFilename();
     }
 
     private String uploadWrapper(MultipartFile multipartFile) throws IOException {
         File file = getFile(multipartFile);
         String fileName = getFilename(multipartFile);
-        String status = uploadFileTos3bucket(fileName, file);
-        return status;
+        return uploadFileTos3bucket(fileName, file);
     }
 
     private Company saveCompanyPhoto(Long id) {
