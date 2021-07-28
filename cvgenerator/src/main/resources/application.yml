@@ -2,7 +2,7 @@ java:
     runtime:
         version: 8
 kafka:
-    bootstrapAddress: localhost:9092
+    bootstrapAddress: kafka:9092
 localstack:
     enabled: true
     s3:
