@@ -2,37 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
 
-    <link rel="stylesheet" type="text/css"
-          href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" media="all" />
 </head>
 
 <body>
-
-<div id="doc2" class="yui-t7">
-    <div id="inner">
-
-        <div id="hd">
-            <div class="yui-gc">
-                <div class="yui-u first">
-                    <h1 th:text="${firstName} + ' ' + ${lastName}"></h1>
-                    <img th:src="'http://localhost:4560/' + ${photo}"/>
-                    <tr th:each="exp : ${experience}">
-                        <td th:text="${exp.start}"></td>
-                        <td th:text="${exp.end}"></td>
-                        <td th:text="${exp.company.name}"></td>
-                    </tr>
-                </div>
-            </div>
-        </div>
-
-    </div>
+<div class="yui-u first">
+    <h1 th:text="${firstName} + ' ' + ${lastName}"></h1>
+    <img th:src="'http://localhost:4566/' + ${photo}"/>
+    <ul th:each="exp : ${experience}">
+        <li th:text="${exp.company.name}"></li>
+        <li th:text="${exp.start}"></li>
+        <li th:text="${exp.end}"></li>
+    </ul>
 </div>
-
 
 </body>
 

@@ -1,5 +1,7 @@
 package com.tkachuk.common.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,7 @@ public class ExperienceDto {
 
     private Long end;
 
+    @ApiModelProperty(hidden = true)
     private CompanyDto company;
 
     private Long companyId;

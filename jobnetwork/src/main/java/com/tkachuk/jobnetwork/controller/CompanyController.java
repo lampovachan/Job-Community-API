@@ -41,7 +41,7 @@ public class CompanyController {
     public ResponseEntity<?> updateCompany(@PathVariable Long id, @Valid @RequestBody Company companyRequest) {
 
         if (companyService.updateCompanyById(id, companyRequest) != null) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok().body("Company updated!");
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
