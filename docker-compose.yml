@@ -21,6 +21,8 @@ services:
             - kafka
             - db
             - localstack
+        environment:
+            - DB_HOST=db
 
     localstack:
         image: localstack/localstack

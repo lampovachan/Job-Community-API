@@ -57,6 +57,7 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getCompany(@PathVariable Long id) {
         Optional<Company> company = companyService.findCompanyById(id);

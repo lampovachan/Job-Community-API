@@ -5,7 +5,7 @@ spring:
     kafka:
         bootstrap-servers: kafka:9092
 kafka:
-    bootstrapAdress: kafka:9092
+    bootstrapAddress: kafka:9092
 localstack:
     enabled: true
     s3:
