@@ -40,7 +40,7 @@ services:
     db:
         image: postgres
         environment:
-            - POSTGRES_DB=postgres
+            - POSTGRES_DB=db
             - POSTGRES_USER=root
             - POSTGRES_PASSWORD=root
         ports:
