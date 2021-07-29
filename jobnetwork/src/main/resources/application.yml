@@ -3,7 +3,7 @@ jwt:
         expired: 3600000
         secret: jwtappdemo
 kafka:
-    bootstrapAddress: localhost:9092
+    bootstrapAddress: kafka:9092
 localstack:
     enabled: true
     s3:
@@ -28,3 +28,5 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
         show-sql: false
+    kafka:
+        bootstrap-servers: kafka:9092

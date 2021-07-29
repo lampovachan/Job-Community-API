@@ -51,7 +51,7 @@ public class UserService {
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         String cvName = UUID.randomUUID().toString();
-        user.setCvUrl("test" + "/" + cvName);
+        user.setCvUrl("test" + "/" + cvName + ".pdf");
         return user;
     }
 
@@ -96,6 +96,6 @@ public class UserService {
 
 
     public S3Object getCvFromS3(String fileName) {
-        return configure.getObject("test", fileName + ".pdf");
+        return configure.getObject("test", fileName);
     }
 }

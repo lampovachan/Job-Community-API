@@ -23,7 +23,6 @@ import java.io.IOException;
 @Service
 public class CVServiceImpl implements CVService {
     private final String bucketName;
-    private final String EXTENSION = ".pdf";
 
     private final AmazonS3 configure;
     private final PdfGeneratorImpl pdfGenerator;
@@ -55,24 +54,24 @@ public class CVServiceImpl implements CVService {
         if (!configure.doesBucketExist(bucketName)) {
             configure.createBucket(bucketName);
         }
-        configure.putObject(bucketName, filename + EXTENSION, file);
+        configure.putObject(bucketName, filename, file);
         return filename;
     }
 
     @Override
     public S3Object getCV(String fileName) {
-        return configure.getObject(bucketName, fileName + EXTENSION);
+        return configure.getObject(bucketName, fileName);
     }
 
     @Override
     public void updateCV(UserDto user, String fileName) throws IOException, DocumentException {
         File file = parseAndGenerate(user);
-        configure.putObject(bucketName, fileName + EXTENSION, file);
+        configure.putObject(bucketName, fileName, file);
     }
 
     @Override
     public void deleteCV (String fileName) {
-        configure.deleteObject(bucketName, fileName + EXTENSION); //not working method due to https://github.com/localstack/localstack/issues/3635
+        configure.deleteObject(bucketName, fileName); //not working method due to https://github.com/localstack/localstack/issues/3635
     }
 
 }

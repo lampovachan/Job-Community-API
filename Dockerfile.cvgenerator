@@ -1,0 +1,8 @@
+FROM maven:3.6.0-jdk-8 as builder
+WORKDIR /apps
+COPY . .
+RUN mvn clean install -DskipTests
+
+FROM openjdk:8-jdk
+COPY --from=builder apps/cvgenerator/target/*.jar cvgenerator.jar
+ENTRYPOINT ["java","-jar","/cvgenerator.jar"]

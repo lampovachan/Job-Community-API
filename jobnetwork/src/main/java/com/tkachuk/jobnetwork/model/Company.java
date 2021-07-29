@@ -26,7 +26,7 @@ public class Company {
     private String name;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "company_id")
     private List<Photo> photos;
 
