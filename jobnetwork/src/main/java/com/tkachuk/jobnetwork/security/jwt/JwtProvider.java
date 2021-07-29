@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -39,21 +40,19 @@ public class JwtProvider {
 		                .compact();
     }
     
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwtToken(String authToken) throws Exception {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token -> Message: {}", e);
+            throw new MalformedJwtException("Invalid JWT token");
         } catch (ExpiredJwtException e) {
-            logger.error("Expired JWT token -> Message: {}", e);
+           throw new Exception("Expired JWT token");
         } catch (UnsupportedJwtException e) {
-            logger.error("Unsupported JWT token -> Message: {}", e);
+            throw new UnsupportedJwtException("Unsupported JWT token");
         } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty -> Message: {}", e);
+            throw new IllegalArgumentException("Jwt claims string is empty");
         }
-        
-        return false;
     }
     
     public String getUserNameFromJwtToken(String token) {

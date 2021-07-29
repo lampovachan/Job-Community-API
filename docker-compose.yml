@@ -3,8 +3,8 @@ version: '3'
 services:
     cvgenerator:
         build:
-            context: cvgenerator
-            dockerfile: ./Dockerfile
+            context: ./
+            dockerfile: Dockerfile.cvgenerator
         ports:
             - "8081:8081"
         depends_on:
@@ -13,14 +13,16 @@ services:
 
     jobnetwork:
         build:
-            context: jobnetwork/
-            dockerfile: ./Dockerfile
+            context: ./
+            dockerfile: Dockerfile.jobnetwork
         ports:
             - "8076:8076"
         depends_on:
             - kafka
             - db
             - localstack
+        environment:
+            - DB_HOST=db
 
     localstack:
         image: localstack/localstack
@@ -33,6 +35,8 @@ services:
             - AWS_ACCESS_KEY_ID=AXXXXXXXXXXXXE
             - AWS_SECRET_ACCESS_KEY=wXXXXXXXXXXXXY
             - AWS_DEFAULT_REGION=us-west-2
+            - HOSTNAME_EXTERNAL=localhost
+            - HOSTNAME=localstack
     db:
         image: postgres
         environment:

@@ -1,6 +1,9 @@
 java:
     runtime:
         version: 8
+spring:
+    kafka:
+        bootstrap-servers: kafka:9092
 kafka:
     bootstrapAddress: kafka:9092
 localstack:

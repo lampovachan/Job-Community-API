@@ -22,6 +22,7 @@ public class S3Config {
 
         final AmazonS3 s3 = AmazonS3ClientBuilder
                 .standard()
+                .withPathStyleAccessEnabled(true)
                 .withEndpointConfiguration(endpoint)
                 .build();
         return s3;

@@ -1,1 +1,1 @@
-mvn clean install -DskipTests && docker-compose up -d
+java -jar jobnetwork.jar & java -jar cvgenerator.jar

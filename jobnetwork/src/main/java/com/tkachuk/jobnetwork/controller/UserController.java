@@ -3,6 +3,7 @@ package com.tkachuk.jobnetwork.controller;
 import com.amazonaws.services.s3.model.S3Object;
 import com.tkachuk.common.dto.ExperienceDto;
 import com.tkachuk.common.dto.UserDto;
+import com.tkachuk.jobnetwork.exception.ResourceNotFoundException;
 import com.tkachuk.jobnetwork.model.User;
 import com.tkachuk.jobnetwork.kafka.KafkaService;
 import com.tkachuk.jobnetwork.service.PhotoService;
@@ -56,7 +57,7 @@ public class UserController {
         if (userService.updateData(userRequest) != null) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+             throw new ResourceNotFoundException("User data was not found");
         }
     }
 
@@ -78,7 +79,7 @@ public class UserController {
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException("User data was not found");
         }
     }
 
@@ -87,7 +88,7 @@ public class UserController {
     public ResponseEntity<?> getUserCv() {
         Optional<User> user = userService.check();
         if (!user.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException("User data was not found");
         }
 
         S3Object object = userService.getCvFromS3(user.get().getCvUrl().split("/")[1]);

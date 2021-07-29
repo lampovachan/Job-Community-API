@@ -39,13 +39,12 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
     								FilterChain filterChain) 
     										throws ServletException, IOException {
         try {
-        	
             String jwt = getJwt(request);
             if (jwt!=null && tokenProvider.validateJwtToken(jwt)) {
                 String username = tokenProvider.getUserNameFromJwtToken(jwt);
 
                 UserDetails userDetails = userService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication 
+                UsernamePasswordAuthenticationToken authentication
                 		= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -53,6 +52,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             logger.error("Can NOT set user authentication -> Message: {}", e);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error -> Not validate token");
         }
 
         filterChain.doFilter(request, response);

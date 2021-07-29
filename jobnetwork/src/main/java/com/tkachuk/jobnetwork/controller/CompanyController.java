@@ -1,5 +1,6 @@
 package com.tkachuk.jobnetwork.controller;
 
+import com.tkachuk.jobnetwork.exception.ResourceNotFoundException;
 import com.tkachuk.jobnetwork.model.Company;
 import com.tkachuk.jobnetwork.service.CompanyService;
 import com.tkachuk.jobnetwork.service.PhotoService;
@@ -39,11 +40,12 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCompany(@PathVariable Long id, @Valid @RequestBody Company companyRequest) {
-
         if (companyService.updateCompanyById(id, companyRequest) != null) {
             return ResponseEntity.ok().body("Company updated!");
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else {
+            throw new ResourceNotFoundException("There is no company with id " + id);
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -55,13 +57,14 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getCompany(@PathVariable Long id) {
         Optional<Company> company = companyService.findCompanyById(id);
         if (company.isPresent()) {
             return new ResponseEntity<>(company.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException("There is no company with id " + id);
         }
     }
 
