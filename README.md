@@ -12,3 +12,8 @@ There is also places of work with its profiles which contains office photos.
 User can add a company to the profile and indicate the dates of work.
 
 Based on users profile data, user can generate CV and download it.
+
+For testing API, access 
+""
+localhost:8076/swagger-ui/
+""
